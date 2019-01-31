@@ -1,5 +1,5 @@
-索引覆盖，走索引，using index
-索引覆盖，索引扫描，using where using index
-索引未覆盖，走索引， null
-索引未覆盖，扫索引 using index condition
+索引覆盖，走索引（索引字段等值连接），using index
+索引覆盖，索引扫描（索引字段范围查询）或者索引在非前导列，using where using index
+索引未覆盖，走索引(索引字段等值连接）， null
+索引未覆盖，扫索引(索引字段范围查询） using index condition
 索引未覆盖，不走索引，using where
