@@ -1,0 +1,52 @@
+cglib动态代理，通过asm字节码框架产生三个类，分别是代理类、代理类FastClass类、被代理类FastClass类。
+代理类继承了被代理类，并且每一个被代理类的方法对应两个方法一个是重写被代理类的方法，一个是CGLIB$method$i方法。
+当用代理类去执行某个方法的时候首先会执行代理类重写的方法，然后执行拦截器里的invokeSuper方法，在该方法中会生成或获取方法的FastClassInfo,
+FastClassInfo 有两个FastClass f1,f2。f1指被代理类的FastClass，f2指代理类的FastClass。fci.f2.invoke(fci.i2, obj, args)。
+通过该方法会调用对应的CGLIB$method$i方法，进而调用被代理类对应的方法。
+
+调用过程
+1、
+代理类执行
+userService.delete(1);
+2、
+代理类实际执行代码
+public final void delete(Integer var1) {
+        MethodInterceptor var10000 = this.CGLIB$CALLBACK_0;
+        if(this.CGLIB$CALLBACK_0 == null) {
+            CGLIB$BIND_CALLBACKS(this);
+            var10000 = this.CGLIB$CALLBACK_0;
+        }
+
+        if(var10000 != null) {
+            var10000.intercept(this, CGLIB$delete$0$Method, new Object[]{var1}, CGLIB$delete$0$Proxy);
+        } else {
+            super.delete(var1);
+        }
+    }
+3、
+执行对应的拦截器
+var10000.intercept(this, CGLIB$delete$0$Method, new Object[]{var1}, CGLIB$delete$0$Proxy);
+
+public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+        System.out.println("方法执行前");
+        Object object = methodProxy.invokeSuper(o, objects);
+        System.out.println("方法执行后");
+        return object;
+    }
+4、执行invokeSuper，生成FastClassInfo
+
+methodProxy.invokeSuper(o, objects);
+public Object invokeSuper(Object obj, Object[] args) throws Throwable {
+        try {
+            init();
+            FastClassInfo fci = fastClassInfo;
+            return fci.f2.invoke(fci.i2, obj, args);
+        } catch (InvocationTargetException e) {
+            throw e.getTargetException();
+        }
+    }
+
+5、根据FastClassInfo执行对应的代理类中的方法
+final void CGLIB$delete$0(Integer var1) {
+        super.delete(var1);
+}

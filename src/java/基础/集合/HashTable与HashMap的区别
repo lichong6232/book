@@ -1,0 +1,4 @@
+1、HashMap是非线程安全的，HashTable是线程安全的<br/>
+2、HashMap可以接受键值为null，HashTable不行<br/>
+3、HashMap的迭代器是fail-fast迭代器。而Hashtable的enumerator迭代器不是fail-fast的。
+所以当有其它线程改变了HashMap的结构（增加或者移除元素），将会抛出ConcurrentModificationException<br/>

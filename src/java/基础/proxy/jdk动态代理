@@ -1,0 +1,98 @@
+jdk动态代理生成代理类的过程
+Proxy.newProxyInstance
+getProxyClass0(loader, intfs)
+byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
+                proxyName, interfaces, accessFlags);
+生成了代理类的Class之后，获取代理来的Constractor，最后生成代理类的实例。
+从代理类可以发现，代理类继承了Proxy及实现了UserService。并依次获取到被代理类的equals,toString,hashCode，以及被代理来的代理方法。
+
+
+
+代理类：
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.lang.reflect.UndeclaredThrowableException;
+import proxy.jdk.User;
+import proxy.jdk.UserService;
+
+public final class UserServiceProxy extends Proxy implements UserService {
+    private static Method m1;
+    private static Method m3;
+    private static Method m2;
+    private static Method m4;
+    private static Method m0;
+
+    public UserServiceProxy(InvocationHandler var1) throws  {
+        super(var1);
+    }
+
+    public final boolean equals(Object var1) throws  {
+        try {
+            return ((Boolean)super.h.invoke(this, m1, new Object[]{var1})).booleanValue();
+        } catch (RuntimeException | Error var3) {
+            throw var3;
+        } catch (Throwable var4) {
+            throw new UndeclaredThrowableException(var4);
+        }
+    }
+
+    public final void delete(Integer var1) throws  {
+        try {
+            super.h.invoke(this, m3, new Object[]{var1});
+        } catch (RuntimeException | Error var3) {
+            throw var3;
+        } catch (Throwable var4) {
+            throw new UndeclaredThrowableException(var4);
+        }
+    }
+
+    public final String toString() throws  {
+        try {
+            return (String)super.h.invoke(this, m2, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    public final User getUserById(Integer var1) throws  {
+        try {
+            return (User)super.h.invoke(this, m4, new Object[]{var1});
+        } catch (RuntimeException | Error var3) {
+            throw var3;
+        } catch (Throwable var4) {
+            throw new UndeclaredThrowableException(var4);
+        }
+    }
+
+    public final int hashCode() throws  {
+        try {
+            return ((Integer)super.h.invoke(this, m0, (Object[])null)).intValue();
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    static {
+        try {
+            m1 = Class.forName("java.lang.Object").getMethod("equals", new Class[]{Class.forName("java.lang.Object")});
+            m3 = Class.forName("proxy.jdk.UserService").getMethod("delete", new Class[]{Class.forName("java.lang.Integer")});
+            m2 = Class.forName("java.lang.Object").getMethod("toString", new Class[0]);
+            m4 = Class.forName("proxy.jdk.UserService").getMethod("getUserById", new Class[]{Class.forName("java.lang.Integer")});
+            m0 = Class.forName("java.lang.Object").getMethod("hashCode", new Class[0]);
+        } catch (NoSuchMethodException var2) {
+            throw new NoSuchMethodError(var2.getMessage());
+        } catch (ClassNotFoundException var3) {
+            throw new NoClassDefFoundError(var3.getMessage());
+        }
+    }
+}
