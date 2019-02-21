@@ -25,4 +25,7 @@ public class Main {
                 "UserServiceProxy", new Class[]{UserService.class});
         new FileOutputStream(new File("/Users/chongli/Documents/lc/mySelfProject/book/src/main/java/proxy/jdk/UserServiceProxy.class")).write(proxyClassFile);
     }
+
+
+
 }
